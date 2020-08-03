@@ -144,6 +144,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "udemy-learn"
+    }
+  },
+  "defaultProject": "udemy-learn",
+  "cli": {
+    "analytics": false
+  }
 }
