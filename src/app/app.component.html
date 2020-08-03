@@ -1,2 +1,11 @@
 {{ title }} works!
 <p appBasicHightLigth>Highligth me!</p>
+<p appBetterHightligth [defaultColor]="'aliceblue'" [highligthColor]="'cornflowerblue'">Highligth me!</p>
+<button (click)="isShow = !isShow">Toggle</button>
+<p *appUnless="isShow">Custom directive unless</p>
+<div [ngSwitch]="value">
+  <p *ngSwitchCase="10">Value is 10</p>
+  <p *ngSwitchCase="100">Value is 100</p>
+  <p *ngSwitchCase="1000">Value is 1000</p>
+  <p *ngSwitchCase="10000">Value is 10000</p>
+</div>
