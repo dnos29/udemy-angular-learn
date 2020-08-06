@@ -29,7 +29,7 @@ export class ServerComponent implements OnInit {
     this.router.navigate(
       ['edit'],
       // {queryParams: {allowEdit: 1}, fragment: 'loading'},
-      {relativeTo: this.route, queryParams: {allowEdit: this.server.id === 1 ? 1 : 0}}
+      {relativeTo: this.route, queryParamsHandling: 'preserve'}
       )
   }
 }
