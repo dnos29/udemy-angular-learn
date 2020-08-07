@@ -25,7 +25,7 @@ const ROUTES: Routes = [
   {path: 'users', component: UsersComponent, children: [
     {path: ':id/:name', component: UserComponent},
   ]},
-  {path: '**', component: PageNotFoundComponent}
+  {path: '**', component: PageNotFoundComponent, data: {message:"Page not found"}}
 ]
 
 @NgModule({
