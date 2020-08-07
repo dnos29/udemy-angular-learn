@@ -10,6 +10,7 @@ import { UserComponent } from './users/user/user.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './auth-guard.service';
 import { CanDeactivateGuard } from './servers/edit-server/candeactive-guard.service'
+import { ServerResolver } from './servers/server/server-resolve.service';
 
 const ROUTES: Routes = [
   {path: '', component: HomeComponent},
@@ -19,7 +20,7 @@ const ROUTES: Routes = [
     canActivateChild: [AuthGuard],
     component: ServersComponent,
     children: [
-      {path: ':id', component: ServerComponent},
+      {path: ':id', component: ServerComponent, resolve: {server: ServerResolver}},
       {path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard]},
   ]},
   {path: 'users', component: UsersComponent, children: [
@@ -30,7 +31,10 @@ const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(
+      ROUTES,
+      {useHash: true}
+    )
   ],
   exports: [RouterModule]
 })
