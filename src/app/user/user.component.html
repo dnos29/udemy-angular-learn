@@ -1,0 +1,6 @@
+<div *ngIf="user; else noItem">
+  <p>user works! User: {{ user.id }} - {{ user.name }}</p>
+</div>
+<ng-template #noItem>
+  <p>No user selected</p>
+</ng-template>
