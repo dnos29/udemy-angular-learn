@@ -1,8 +1,6 @@
 <div class="form mt-5">
-  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <div 
-      ngModelGroup="userData"
-      #userData="ngModelGroup">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div formGroupName="userData">
       <div class="form-group">
         <label class="form-text">Username</label>
         <input 
@@ -10,12 +8,15 @@
           type="text" 
           class="form-control" 
           placeholder="Enter user name"
-          ngModel
-          name="username"
-          required
+          formControlName="username"
           >
+          <small
+            *ngIf="signupForm.get('userData.username').errors && signupForm.get('userData.username').errors['nameIsForbidden']"
+           class="form-text text-danger">This name is forbidden</small>
+          <small
+            *ngIf="signupForm.get('userData.username').errors && signupForm.get('userData.username').errors['required'] && signupForm.get('userData.username').touched"
+           class="form-text text-danger">Enter a name</small>
       </div>   
-      <div class="btn btn-secondary" (click)="onSuggestName()">Suggest a user</div>
       <div class="form-group">
         <label for="" class="form-text">Mail</label>
         <input 
@@ -23,74 +24,43 @@
         type="email" 
         class="form-control"
         placeholder="Enter email"
-        ngModel
-        name="email"
-        required
-        email
-        #email="ngModel">
-        <small 
-          id="emailHelp" 
-          class="form-text text-danger"
-          *ngIf="!email.valid && email.touched">
-          Please enter valid email
-        </small>
+        formControlName="email">
+        <small
+            *ngIf="!this.signupForm.get('userData.email').valid && this.signupForm.get('userData.email').touched"
+           class="form-text text-danger">Enter valid email</small>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="" class="form-text">Secret question</label>
-      <select
-        id="secret" 
-        class="form-control"
-        [ngModel]="'teacher'"
-        name="secret">
-        <option value="pet" selected>Your first pet?</option>
-        <option value="teacher">Who is your teacher?</option>
-      </select>
-      <span 
-        class="text-danger"
-        *ngIf="!userData.valid && userData.touched"
-        >User data is invalid</span>
-    </div>
-    <div class="form-group">
-      <textarea 
-        name="questionAnswer" 
-        rows="3" 
-        class="form-control"
-        [(ngModel)]="answer"
-        questionAnswer>
-
-      </textarea>
-      <span>Your reply: {{ answer }}</span>
     </div>
     <div class="form-group">
       <label for="" class="form-text">Gender</label>
       <div class="form-check" *ngFor="let gender of genders">
         <input 
           class="form-check-input"
-          type="radio" name="gender" 
-          ngModel [value]="gender"
-          gender
-          required>
-        <label class="form-check-label" for="exampleRadios1">
-          {{gender}}
-        </label>
+          formControlName="gender"
+          type="radio"
+          [value]="gender"
+          >
+          <label class="form-check-label" for="exampleRadios1">
+            {{gender}}
+          </label>
       </div>
     </div>
+    <div class="form-group" formArrayName="hobbies">
+      <label for="" class="form-text">Hobbies</label>
+      <button class="btn btn-secondary" (click)="onAddHobby()" type="button">Add hobby</button>
+      <input 
+        type="text"
+        class="form-control mt-2"
+        *ngFor="let hobby of signupForm.get('hobbies').controls; let i = index"
+        [formControlName]="i">
+    </div>
+    <small
+      *ngIf="!this.signupForm.valid && this.signupForm.touched"
+      class="form-text text-danger">Enter valid form</small><br>
     <button 
       class="btn btn-primary"
       type="submit"
-      [disabled]="!f.valid"
       >
       Submit
     </button>
   </form>
-  <div class="row" *ngIf="formSubmitted">
-    <div class="col-12">
-      <p>Name: {{ user.username }}</p>
-      <p>Email: {{ user.email }}</p>
-      <p>Question: {{ user.secrect }}</p>
-      <p>QuestionAnswer: {{ user.questionAnswer}}</p>
-      <p>Gender: {{ user.gender }}</p>
-    </div>
-  </div>
 </div>
