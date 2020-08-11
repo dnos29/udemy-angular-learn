@@ -1,1 +1,45 @@
 <p>home works!</p>
+<div class="">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="">Title</label>
+            <input 
+            type="text" 
+            class="form-control"
+            formControlName="title">
+        </div>
+        <div class="form-group">
+            <label for="">Content</label>
+            <textarea 
+            name="" 
+            rows="3"
+            class="form-control"
+            formControlName="content"></textarea>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit" [disabled]="!postForm.valid">Send post</button>
+        </div>
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-primary" type="button" (click)="onFetchPosts()">Fetch post</button> | 
+            <button class="btn btn-danger" type="button" (click)="onClearPosts()">Clear posts</button>
+        </div>
+    </form>
+    <div class="" *ngIf="posts.length > 0;else noItems">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let post of posts">
+                <h4>{{post.title}}</h4>
+                <p>{{post.content}}</p>
+            </li>
+        </ul>
+    </div>
+    <ng-template #noItems>
+        <span #noItems>No posts available</span>
+    </ng-template>
+    <span *ngIf="isLoading && !error">Loading...</span>
+    <div class="alert alert-danger" *ngIf="error">
+        <h3>An error occured</h3>
+        <p>{{ error }}</p>
+        <button class="btn btn-danger" (click)="onHandleErrors()">Okay</button>
+    </div>
+</div>
